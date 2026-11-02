@@ -12,7 +12,10 @@ It serves `web/index.html` plus two data files published next to it: `snapshot.j
 4. Artifact `list` with `scope: "files"` on the dashboard URL, then Artifact publish with
    `url` = dashboard URL, `file_path` = `~/tradingterminal/web/index.html`,
    `files` = `{"snapshot.json": "~/tradingterminal/out/snapshot.json", "reports.json": "~/tradingterminal/out/reports.json"}` (absolute paths).
-5. End with the full text of `out/report.md` as the final message. It is the report that gets emailed.
+5. Email the report with Gmail `send_message` to hashimanwar00@gmail.com: subject from `out/email.json`, `htmlBody` = contents of `out/report.html`. Send exactly one.
+6. End with the full text of `out/report.md` as the final message.
+
+Scheduled task: `trig_019Cx8LwUyQgSsNREuVBsNou` (needs the Gmail connector attached in claude.ai). The dashboard's Refresh button fires it.
 
 If the data fetch fails, do not publish. Say which host failed (network policy needs: data-api.binance.vision, www.okx.com).
 
