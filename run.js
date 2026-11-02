@@ -123,10 +123,11 @@ let history = [];
 if (args.history && fs.existsSync(args.history)) {
   try { history = JSON.parse(fs.readFileSync(args.history, 'utf8')); if (!Array.isArray(history)) history = history.reports || []; } catch { history = []; }
 }
-const prevIds = new Set(history[0]?.signalIds || []);
+const prevIds = new Set(history.find((h) => snap.generatedAt - h.generatedAt > 20 * 60e3)?.signalIds || []);
 const rep = buildReport(snap, prevIds);
 const entry = { generatedAt: snap.generatedAt, headline: rep.headline, newCount: rep.newCount, signalCount: snap.signals.length, markdown: rep.markdown, signalIds: snap.signals.map((s) => s.id) };
-history = [entry, ...history.filter((h) => h.generatedAt !== entry.generatedAt)].slice(0, 60);
+// a re-run within 20 minutes replaces the previous entry instead of duplicating it
+history = [entry, ...history.filter((h) => entry.generatedAt - h.generatedAt > 20 * 60e3)].slice(0, 60);
 snap.latestReport = { generatedAt: entry.generatedAt, headline: entry.headline, markdown: entry.markdown };
 
 fs.mkdirSync(OUT, { recursive: true });
