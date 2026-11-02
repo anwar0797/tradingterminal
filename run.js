@@ -9,7 +9,7 @@ import { keyLevels, volumeProfile, fibLevels } from './src/levels.js';
 import { STRATEGIES } from './src/strategies.js';
 import { alignFutures, backtestSeries, stats, MAX_HOLD, FEE_ROUNDTRIP } from './src/backtest.js';
 import { technicalSummary, liveSignals, biasLabel } from './src/analysis.js';
-import { buildReport } from './src/report.js';
+import { buildReport, reportHtml } from './src/report.js';
 
 const args = Object.fromEntries(process.argv.slice(2).reduce((a, x, i, arr) => (x.startsWith('--') ? [...a, [x.slice(2), arr[i + 1]]] : a), []));
 const OUT = args.out || 'out';
@@ -134,4 +134,6 @@ fs.mkdirSync(OUT, { recursive: true });
 fs.writeFileSync(path.join(OUT, 'snapshot.json'), JSON.stringify(snap));
 fs.writeFileSync(path.join(OUT, 'reports.json'), JSON.stringify(history));
 fs.writeFileSync(path.join(OUT, 'report.md'), rep.markdown);
+fs.writeFileSync(path.join(OUT, 'report.html'), reportHtml(rep.markdown));
+fs.writeFileSync(path.join(OUT, 'email.json'), JSON.stringify({ subject: `Crypto trade ideas ${new Date(snap.generatedAt).toISOString().slice(0, 16).replace('T', ' ')} UTC: ${rep.headline}` }));
 log(`done: ${snap.signals.length} live signals, snapshot ${(fs.statSync(path.join(OUT, 'snapshot.json')).size / 1024).toFixed(0)} KB`);
