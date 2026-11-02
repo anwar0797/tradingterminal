@@ -1,0 +1,12 @@
+{
+  "name": "tradingterminal",
+  "version": "1.0.0",
+  "description": "BTC / ETH / SOL technical analysis, multi-strategy signal scanner, backtester and 4-hourly report.",
+  "type": "module",
+  "private": true,
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "run": "node run.js",
+    "test": "node test/smoke.js"
+  }
+}
