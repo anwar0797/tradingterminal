@@ -5,7 +5,7 @@ It serves `web/index.html` plus two data files published next to it: `snapshot.j
 
 ## 4-hourly update (scheduled task)
 
-1. Clone if needed: `git clone --depth 1 https://github.com/anwar0797/tradingterminal ~/tradingterminal`
+1. Use the checkout of this repo that the scheduled task attaches (Repositories in the task's settings). Don't clone it at run time: with Gmail attached, auto mode blocks running freshly cloned code.
 2. Fetch the previous report history: Artifact `read` with `url` = the dashboard URL and `path` = `reports.json`. Note the local path it was saved to.
 3. Run the engine (Node 18+, no dependencies). Node's fetch needs the proxy flag in Claude cloud sessions:
    `cd ~/tradingterminal && NODE_USE_ENV_PROXY=1 DASHBOARD_URL=https://claude.ai/artifact/1U4PVgfrNQ4eBsWuwfS7EG node run.js --history <saved reports.json> --out out`
